@@ -36,11 +36,11 @@
         @Html.Action("Header", "Home")
     </header>
     <div class="brown--color box-search-content search_active block-bg close__top">
-        <form id="search_mini_form" class="minisearch" action="@Url.Action("Shop","Shop")" method="get">
+        <form id="search_mini_form" class="minisearch" action="@Url.Action("SearchView","Home")" method="get">
             <div class="field__search">
-                <input type="text" placeholder="Nhập sản phẩm cần tìm" name="tensp">
+                <input type="text" placeholder="Nhập sản phẩm cần tìm" name="keyWord">
                 <div class="action">
-                    <a onclick="document.getElementById('search_mini_form').submit()"><i class="zmdi zmdi-search"></i></a>
+                    <a  onclick="document.getElementById('search_mini_form').submit()" ><i class="zmdi zmdi-search"></i></a>
                 </div>
             </div>
         </form>

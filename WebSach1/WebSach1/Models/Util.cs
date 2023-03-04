@@ -9,9 +9,9 @@ namespace WebSach1.Models
     {
         public static decimal GiaGiam(decimal gia, string pt)
         {
-
             if (gia != null && pt != "")
             {
+                pt = pt.Replace("%", "");
                 decimal giamoi = gia * int.Parse(pt) / 100;
                 return giamoi;
             }

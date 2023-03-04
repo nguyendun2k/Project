@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebSach1.Helper;
 using WebSach1.Models;
 
 namespace WebSach1.Controllers
@@ -189,15 +190,17 @@ namespace WebSach1.Controllers
             ViewBag.mess123 = "Cập nhập tài khoản thành công";
             return View();
         } 
-        public PartialViewResult Seach(string keyWord)
+        public PartialViewResult Search()
         {
             var sp = new List<SanPham>();
+            var keyWord = TempData["keyword"].ToString();
             if (!string.IsNullOrWhiteSpace(keyWord))
             {
-                 var nameResult = db.SanPhams.Where(x => x.Ten.Equals(keyWord, StringComparison.OrdinalIgnoreCase)).Take(20).ToList();
-                var authorResult = db.SanPhams.Where(x => x.TacGia.Equals(keyWord, StringComparison.OrdinalIgnoreCase)).Take(20).ToList();
-                sp.Concat(nameResult);
-                sp.Concat(authorResult);
+                var allProduct = db.SanPhams.ToList();
+                var nameResult = allProduct.Where(x => x.Ten.RemoveVietnameseSign().Contains(keyWord.RemoveVietnameseSign(), StringComparison.CurrentCultureIgnoreCase)).ToList();
+                var authorResult = allProduct.Where(x => x.TacGia.RemoveVietnameseSign().Contains(keyWord.RemoveVietnameseSign(), StringComparison.CurrentCultureIgnoreCase)).ToList();
+                sp.AddRange(nameResult);
+                sp.AddRange(authorResult);
             }
             //else
             //{
@@ -207,5 +210,11 @@ namespace WebSach1.Controllers
             return PartialView(sp);
         }
 
+        public ActionResult SearchView(string keyWord) 
+        {
+            TempData["keyword"] = keyWord;
+            ViewBag.Banner4 = db.CauHinhs.Where(x => x.Ma == 1).FirstOrDefault().Banner4;
+            return View(); 
+        }
     }
 }
