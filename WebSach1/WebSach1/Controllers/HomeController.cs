@@ -207,6 +207,7 @@ namespace WebSach1.Controllers
             //    sp = db.SanPhams.Take(20).ToList();
             //}
             ViewBag.LoaiSP = db.LoaiSPs.Take(4).OrderBy(x => x.Ma).ToList();
+            sp.GroupBy(x => x.Ma).Select(x => x.FirstOrDefault()).ToList();
             return PartialView(sp);
         }
 
